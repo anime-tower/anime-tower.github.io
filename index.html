@@ -220,19 +220,15 @@
             <button class="btn-primary" id="copyKeyBtn" onclick="copyToClipboard()">
                 📋 Copy Key
             </button>
-            <button class="btn-secondary" id="downloadBtn" onclick="downloadLua()">
-                ⬇️ Download main.lua
-            </button>
         </div>
-        
+
         <div class="instructions" id="instructions">
-            <h3>📝 How to use:</h3>
+            <h3>How to use your key</h3>
             <ol>
-                <li>Copy the key above or download the ready-made main.lua</li>
-                <li>If copying manually - find the line <code>Key = {"Hello"}</code> in main.lua</li>
-                <li>Replace it with <code>Key = {"YOUR_KEY"}</code> (paste your key)</li>
-                <li>Load the script into your executor</li>
-                <li>Run the script in the game!</li>
+                <li>Copy your key using the button above.</li>
+                <li>Open the script executor in Roblox.</li>
+                <li>Paste and execute the script.</li>
+                <li>Enter your key when prompted.</li>
             </ol>
         </div>
         
@@ -294,119 +290,6 @@
             }).catch(err => {
                 alert('Error copying: ' + err);
             });
-        }
-        
-        function downloadLua() {
-            const keyText = document.getElementById('keyValue').textContent;
-            
-            // Basic main.lua configuration
-            const luaContent = `if game.PlaceId == 13753090786 then
-    local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
-    local Window = Rayfield:CreateWindow({
-        Name = "Anime Tower Script",
-        Icon = 4483362458,
-        LoadingTitle = "Anime Tower Script",
-        LoadingSubtitle = "by FatboySlim",
-        ShowText = "Anime Tower Script",
-        Theme = "Default",
-
-        ToggleUIKeybind = "K",
-
-        DisableRayfieldPrompts = false,
-        DisableBuildWarnings = false,
-
-        ConfigurationSaving = {
-            Enabled = true,
-            FolderName = "AnimeTowerConfigs",
-            FileName = "AnimeTowerConfig"
-        },
-
-        Discord = {
-            Enabled = false,
-            Invite = "noinvitelink",
-            RememberJoins = true
-        },
-
-        KeySystem = true,
-        KeySettings = {
-            Title = "Anime Tower Script",
-            Subtitle = "Key System",
-            Note = "Key was generated for you via Linkvertise",
-            FileName = "AnimeTowerKey",
-            SaveKey = true,
-            GrabKeyFromSite = false,
-            Key = {"${keyText}"}
-        }
-    })
-    
-    local Tab = Window:CreateTab("Tools", "wrench")
-    local Paragraph = Tab:CreateParagraph({Title = "AutoWin", Content = "Teleports you to the end of the map every 30 seconds to prevent detecting"})
-    local AutoWinEnabled = false
-    local isFirstToggle = true
-    local lastTeleportTime = 0
-    local Toggle = Tab:CreateToggle({
-        Name = "Auto Win",
-        CurrentValue = false,
-        Flag = "AutoWin",
-        Callback = function(Value)
-            AutoWinEnabled = Value
-            if Value and isFirstToggle then
-                isFirstToggle = false
-                lastTeleportTime = tick() - 30
-            end
-        end
-    })
-
-    local lastTeleportTime = 0
-    task.spawn(function()
-        while true do
-            if AutoWinEnabled then
-                if (tick() - lastTeleportTime >= 30) then
-                    local success, errorMessage = pcall(function()
-                        local Players = game:GetService("Players")
-                        local LocalPlayer = Players.LocalPlayer
-                        local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-                        local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart", 5)
-
-                        if HumanoidRootPart then
-                            local targetPosition = Vector3.new(-315, 353, 225)
-                            HumanoidRootPart.CFrame = CFrame.new(targetPosition)
-                            print("Teleported to: " .. tostring(targetPosition))
-                        else
-                            warn("HumanoidRootPart hasn't found")
-                        end
-                    end)
-                    if not success then
-                        warn("Error: " .. errorMessage)
-                    end
-                    lastTeleportTime = tick()
-                else
-                    local secondsRemaining = math.floor(30 - (tick() - lastTeleportTime))
-                    Paragraph:Set({
-                        Title = "AutoWin",
-                        Content = "Next teleport in: " .. secondsRemaining .. " seconds"
-                    })
-                end
-            else
-                Paragraph:Set({
-                    Title = "AutoWin",
-                    Content = "Teleports you to the end of the map every 30 seconds to prevent detecting"
-                })
-            end
-            
-            wait(1)
-        end
-    end)
-end`;
-            
-            // Download file
-            const element = document.createElement('a');
-            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(luaContent));
-            element.setAttribute('download', 'main.lua');
-            element.style.display = 'none';
-            document.body.appendChild(element);
-            element.click();
-            document.body.removeChild(element);
         }
     </script>
 </body>
